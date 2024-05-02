@@ -1,44 +1,24 @@
-package ru.netology.jdbc;
+package ru.netology.jdbc.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@org.springframework.stereotype.Repository
-public class Repository {
-    @Autowired
-    private static DataSource dataSource;
-
-    @Autowired
-    private static JdbcTemplate jdbcTemplate;
-
-    @Autowired
+@Repository
+public class ProductRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private static String script = read("data.sql");
 
-    public static void main(String[] args) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        Statement statement = connection.createStatement();
-
-        List<Product> products = jdbcTemplate.query(script, (resultSet, rowNum) -> {
-            String name = resultSet.getString("name");
-            return new Product(name);
-
-        });
-        products.forEach(System.out::println);
+    public ProductRepository() {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public static String read(String scriptFileName) {
@@ -50,7 +30,7 @@ public class Repository {
         }
     }
 
-    List<String> getProductName(String name) {
+    public List<String> getProductName(String name) {
         return namedParameterJdbcTemplate.queryForList(script, Map.of("name", name), String.class);
     }
 }

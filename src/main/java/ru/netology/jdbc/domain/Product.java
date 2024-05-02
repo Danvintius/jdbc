@@ -1,4 +1,4 @@
-package ru.netology.jdbc;
+package ru.netology.jdbc.domain;
 
 public class Product {
 
