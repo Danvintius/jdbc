@@ -17,7 +17,7 @@ public class ProductRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private static String script = read("data.sql");
 
-    public ProductRepository() {
+    public ProductRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
